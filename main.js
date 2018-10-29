@@ -1,4 +1,4 @@
-document.body.style.backgroundColor = randomColor({
+document.getElementById("bod").style.backgroundColor = randomColor({
    luminosity: 'light',
    hue: 'blue'
 });
