@@ -28,8 +28,8 @@
 
   <!-- Scripts
   __________________________________________________ -->
-  
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/randomcolor/0.5.2/randomColor.min.js"></script>
   
 </head>
@@ -38,14 +38,30 @@
   <script>    
         document.body.style.backgroundColor = randomColor({luminosity: 'light', hue: 'green'});
 	var x = document.getElementById("bod");
+	var tex = document.getElementById("tex");
 	if (navigator.geolocation) {
         	navigator.geolocation.getCurrentPosition(
 			function(position) {
-  				x.innerHTML = position.coords.latitude, position.coords.longitude
+  				//x.innerHTML = position.coords.latitude, position.coords.longitude
+				$.getJSON("http://api.openweathermap.org/data/2.5/weather",
+				{
+					lat:position.coords.latitude,
+					lon:position.coords.longitude,
+					appid:'0ebe2c28e96d05fe3a4a79414f3311bb'
+				},
+				function(response){  //'response' is actually a variable, we could name it what ever we want. It just stores what the api sends
+					console.log(response)
+					$(".country").html(response.sys.country)
+					$(".temp").html(parseInt((response.main.temp).toFixed(2) / 1.41).toFixed(2));
+					$(".city-name").html(response.name);
+					$(".weather").html(response.weather[0].description)
+				});
 			});
     	} else {
-        	x.innerHTML = "Geolocation needs to be enabled by this browser.";
+        	tex.innerHTML = "Geolocation needs to be enabled by this browser.";
     	}
+
+	x.innerHTML = x.innerHTML.replace(/\n|\r/g, "");
 
 	var word = "planckplanckplanck";
 	var input = "";
@@ -57,10 +73,12 @@
 		input = "";
 	    }
 });
+
+	
   </script>
 
   <div id="tex">
-	Today's wheather in <div id="loc"></div> is <div id="temp"></div> <a href="https://en.wikipedia.org/wiki/Planck_temperature_scale">cµyTp!</a>
+	Today's wheather in <text class="city-name"></text>, <text class="country"></text> is <text class="temp"></text> <a href="https://en.wikipedia.org/wiki/Planck_temperature_scale">cµyTp!</a>
   </div>
 
 </body>
