@@ -37,8 +37,31 @@
 <body id="bod">
   <script>    
         document.body.style.backgroundColor = randomColor({luminosity: 'light', hue: 'green'});
+	var x = document.getElementById("bod");
+	if (navigator.geolocation) {
+        	navigator.geolocation.getCurrentPosition(
+			function(position) {
+  				x.innerHTML = position.coords.latitude, position.coords.longitude
+			});
+    	} else {
+        	x.innerHTML = "Geolocation needs to be enabled by this browser.";
+    	}
+
+	var word = "planckplanckplanck";
+	var input = "";
+	document.body.addEventListener('keypress',function(ev){
+	    input += String.fromCharCode(ev.keyCode);
+	    console.log(input);
+	    if(input == word){
+		x.innerHTML = '<img src="https://i.imgur.com/Pyo4DQF.jpg">';
+		input = "";
+	    }
+});
   </script>
-Today's wheather in loc is x cµyTp!
+
+  <div id="tex">
+	Today's wheather in <div id="loc"></div> is <div id="temp"></div> <a href="https://en.wikipedia.org/wiki/Planck_temperature_scale">cµyTp!</a>
+  </div>
 
 </body>
 </html>
