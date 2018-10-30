@@ -52,7 +52,7 @@
 				function(response){  //'response' is actually a variable, we could name it what ever we want. It just stores what the api sends
 					console.log(response)
 					$(".country").html(response.sys.country)
-					$(".temp").html(parseInt((response.main.temp).toFixed(2) / 1.41683385).toFixed(2));
+					$(".temp").html(parseInt(response.main.temp / 1.41683385).toFixed(2));
 					$(".city-name").html(response.name);
 					$(".weather").html(response.weather[0].description)
 				});
